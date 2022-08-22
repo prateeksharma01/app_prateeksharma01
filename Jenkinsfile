@@ -6,7 +6,7 @@ pipeline {
         //Docker_Repository = 'app_prateeksharma01'
         //Docker_Login_User = credentials('DockerLoginUser')
         //Docker_Login_Password = credentials('DockerLoginPassword')
-        //UserName = 'shubhamgoel02'
+        UserName = 'prateeksharma01'
     }
     
     stages {
@@ -29,13 +29,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "dotnet restore DevOpsnMicroServices/DevOpsnMicroServices.csproj"
+                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
                 bat "dotnet build"
             }
         }
         stage('Test') {
             steps {
-                bat 'dotnet test --logger "trx;LogFileName=DevOpsnMicroServices.Tests.Results.trx" --no-build --collect "Code Coverage"'
+                bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
                 mstest testResultsFile:"**/*.trx", keepLongStdio: true
             }
         }
