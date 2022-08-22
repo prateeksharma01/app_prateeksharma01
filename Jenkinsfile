@@ -3,10 +3,10 @@ pipeline {
     
     environment {
         SonarQubeTool = tool name: 'sonar_scanner_dotnet'
-        Docker_Repository = 'devopsnmicroservices'
-        Docker_Login_User = credentials('DockerLoginUser')
-        Docker_Login_Password = credentials('DockerLoginPassword')
-        UserName = 'shubhamgoel02'
+        //Docker_Repository = 'app_prateeksharma01'
+        //Docker_Login_User = credentials('DockerLoginUser')
+        //Docker_Login_Password = credentials('DockerLoginPassword')
+        //UserName = 'shubhamgoel02'
     }
     
     stages {
