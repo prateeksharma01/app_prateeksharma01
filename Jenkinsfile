@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
+                git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
             }
         }
         stage('Sonarqube Begin') {
