@@ -34,7 +34,7 @@ spec:
 
       containers:
 
-      - name: app_nagpdevops
+      - name: app-nagpdevops
 
         image: prateeksh/i-prateeksharma-master:latest
 
