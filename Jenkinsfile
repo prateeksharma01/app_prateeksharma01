@@ -33,11 +33,11 @@ pipeline {
 //                }
 //            }
 //        }
-        stage('Build') {
-            steps {
-                bat "dotnet build"
-            }
-        }
+//        stage('Build') {
+//            steps {
+//                bat "dotnet build"
+//            }
+//        }
 //        stage('Test') {
 //            steps {
 //                bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
