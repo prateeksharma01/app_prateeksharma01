@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: nagpdevops-deplyoment
+
+  namespace: kubernetes-cluster-prateeksharma01
+
+  labels:
+
+    app: app_nagpdevops
+
+spec:
+
+  selector:
+
+    matchLabels:
+
+      app: app_nagpdevops
+
+  replicas: 3
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: app_nagpdevops
+
+    spec:
+
+      containers:
+
+      - name: app_nagpdevops
+
+        image: prateeksh/i-prateeksharma-master:latest
+
+        resources:
+
+          limits:
+
+            memory: "128Mi"
+
+            cpu: "500m"
+
+        ports:
+
+        - containerPort: 7100
+
+---
+
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  namespace: kubernetes-cluster-prateeksharma01
+
+  name: nagpdevops-service
+
+spec:
+
+  type: LoadBalancer
+
+  selector:
+
+    app: app_nagpdevops
+
+  ports:
+
+  - port: 30157
+
+    targetPort: 7100
+
+    protocol: TCP

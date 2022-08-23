@@ -6,7 +6,7 @@ pipeline {
         Docker_Repository = 'app_prateeksharma01'
         Docker_Login_User = credentials('DockerLoginUser')
         Docker_Login_Password = credentials('DockerLoginPassword')
-        UserName = 'prateeksharma'
+        UserName = 'prateeksharma01'
     }
     
     stages {
@@ -15,6 +15,7 @@ pipeline {
                 cleanWs()
             }
         }
+        /*
         stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
@@ -60,10 +61,11 @@ pipeline {
                 bat "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
             }
         }
+        */
         stage('Deploy') {
             steps {
-                bat "docker rm c-${UserName}_master -f"
-                bat "docker run -p 7100:7100 -d --name c-${UserName}_master ${Docker_Login_User}/i-${UserName}-master:dev_${BUILD_NUMBER}"
+                bat "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
+                bat "kubectl apply -f deploymentandservice.yaml"
             }
         }
     }
