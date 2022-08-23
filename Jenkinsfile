@@ -21,6 +21,7 @@ pipeline {
         }
         stage('Start sonarqube analysis') {
             steps {
+                when { env.BRANCH_NAME "master" }
                 withSonarQubeEnv('Test_Sonar') {
                     bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
                 }
