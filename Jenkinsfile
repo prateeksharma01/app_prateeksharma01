@@ -14,7 +14,7 @@ pipeline {
         stage('Nuget restore') {
             steps {
                 cleanWs()
-                git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
+                git branch: '${branch}', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
                 bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
 
             }
