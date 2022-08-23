@@ -20,6 +20,11 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
             }
         }
+        stage('Nuget restore') {
+            steps {
+                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
+            }
+        }
         stage('Sonarqube Begin') {
             steps {
                 withSonarQubeEnv('Test_Sonar') {
@@ -29,7 +34,6 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
                 bat "dotnet build"
             }
         }
@@ -51,9 +55,9 @@ pipeline {
                 bat 'dotnet publish nagp-devops-us -o Publish -c Release'
                 bat 'docker rmi -f nagp-devops-us:local_dev'
                 bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
-                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-{Branch}:latest"
+                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-{env.BRANCH_NAME}:latest"
                 bat "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
-                bat "docker push ${Docker_Login_User}/i-${UserName}-{Branch}:latest"
+                bat "docker push ${Docker_Login_User}/i-${UserName}-{env.BRANCH_NAME}:latest"
             }
         }
         stage('Deploy') {
