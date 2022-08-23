@@ -55,9 +55,9 @@ pipeline {
                 bat 'dotnet publish nagp-devops-us -o Publish -c Release'
                 bat 'docker rmi -f nagp-devops-us:local_dev'
                 bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
-                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-{env.BRANCH_NAME}:latest"
+                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
                 bat "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
-                bat "docker push ${Docker_Login_User}/i-${UserName}-{env.BRANCH_NAME}:latest"
+                bat "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
             }
         }
         stage('Deploy') {
