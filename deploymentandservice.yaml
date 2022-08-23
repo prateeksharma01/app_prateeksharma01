@@ -36,15 +36,9 @@ spec:
 
       - name: app-nagpdevops
 
-        image: prateeksh/i-prateeksharma-master:latest
+        image: prateeksh/i-prateeksharma-develop:latest
 
-        resources:
-
-          limits:
-
-            memory: "128Mi"
-
-            cpu: "500m"
+        
 
         ports:
 
