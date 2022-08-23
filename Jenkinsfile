@@ -3,10 +3,10 @@ pipeline {
     
     environment {
         SonarQubeTool = tool name: 'sonar_scanner_dotnet'
-        //Docker_Repository = 'app_prateeksharma01'
-        //Docker_Login_User = credentials('DockerLoginUser')
-        //Docker_Login_Password = credentials('DockerLoginPassword')
-        UserName = 'prateeksharma01'
+        Docker_Repository = 'app_prateeksharma01'
+        Docker_Login_User = credentials('DockerLoginUser')
+        Docker_Login_Password = credentials('DockerLoginPassword')
+        UserName = 'prateeksharma'
     }
     
     stages {
@@ -48,12 +48,12 @@ pipeline {
         }
         stage('Publish') {
             steps {
-                bat 'dotnet publish DevOpsnMicroServices -o Publish -c Release'
-                bat 'docker rmi -f devopsnmicroservices:local_dev'
-                bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t devopsnmicroservices:local_dev ${WORKSPACE}\\Publish"
-                bat "docker tag devopsnmicroservices:local_dev ${Docker_Login_User}/i-${UserName}-master:dev_${BUILD_NUMBER}"
+                bat 'dotnet publish nagp-devops-us -o Publish -c Release'
+                bat 'docker rmi -f nagp-devops-us:local_dev'
+                bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
+                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-{Branch}:latest"
                 bat "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
-                bat "docker push ${Docker_Login_User}/i-${UserName}-master:dev_${BUILD_NUMBER}"
+                bat "docker push ${Docker_Login_User}/i-${UserName}-{Branch}:latest"
             }
         }
         stage('Deploy') {
