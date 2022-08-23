@@ -65,7 +65,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
-                bat "kubectl create namespace kubernetes-cluster-prateeksharma01"
+   //             bat "kubectl create namespace kubernetes-cluster-prateeksharma01"
                 bat "kubectl apply -f deploymentandservice.yaml"
             }
         }
