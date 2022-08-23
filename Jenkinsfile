@@ -36,6 +36,9 @@ pipeline {
             }
         }
         stage('Test case execution') {
+            when {
+                     branch 'master'
+                }
             steps {
                 bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
                 mstest testResultsFile:"**/*.trx", keepLongStdio: true
@@ -48,6 +51,9 @@ pipeline {
         }
         
         stage('Stop sonarqube analysis') {
+            when {
+                     branch 'master'
+                }
             steps {
                 withSonarQubeEnv('Test_Sonar') {
                     bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
