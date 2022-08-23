@@ -16,16 +16,16 @@ pipeline {
             }
         }
        
-//        stage('Checkout') {
-//            steps {
-//                git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
-//            }
-//        }
-//        stage('Nuget restore') {
-//            steps {
-//                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
-//            }
-//        }
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
+            }
+        }
+        stage('Nuget restore') {
+            steps {
+                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
+            }
+        }
 //        stage('Sonarqube Begin') {
 //            steps {
 //                withSonarQubeEnv('Test_Sonar') {
@@ -33,11 +33,11 @@ pipeline {
 //                }
 //            }
 //        }
-//        stage('Build') {
-//            steps {
-//                bat "dotnet build"
-//            }
-//        }
+        stage('Build') {
+            steps {
+                bat "dotnet build"
+            }
+        }
 //        stage('Test') {
 //            steps {
 //                bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
