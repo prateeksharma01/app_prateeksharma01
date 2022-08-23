@@ -41,7 +41,7 @@ pipeline {
         stage('Test') {
             steps {
                 bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
-                mstest testResultsFile:"**/*.trx", keepLongStdio: true
+               // mstest testResultsFile:"**/*.trx", keepLongStdio: true
             }
         }
         stage('Sonarqube End') {
