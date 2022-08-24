@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+                label 'ubuntu'
+            } 
     
     environment {
         SonarQubeTool = tool name: 'sonar_scanner_dotnet'
@@ -19,17 +21,17 @@ pipeline {
 
             }
         }
-        stage('Start sonarqube analysis') {
-            when {
-                     branch 'master'
-                }
-            steps {
-                
-                withSonarQubeEnv('Test_Sonar') {
-                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
-                }
-            }
-        }
+//        stage('Start sonarqube analysis') {
+//            when {
+//                     branch 'master'
+//                }
+//            steps {
+//                
+//                withSonarQubeEnv('Test_Sonar') {
+//                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
+//                }
+//            }
+//        }
         stage('Code build') {
             steps {
                 bat "dotnet build"
@@ -50,20 +52,18 @@ pipeline {
             }
         }
         
-        stage('Stop sonarqube analysis') {
-            when {
-                     branch 'master'
-                }
-            steps {
-                withSonarQubeEnv('Test_Sonar') {
-                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
-                }
-            }
-        }
+//        stage('Stop sonarqube analysis') {
+//            when {
+//                     branch 'master'
+//                }
+//            steps {
+//                withSonarQubeEnv('Test_Sonar') {
+//                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
+//                }
+//            }
+//        }
         stage('Docker publish') { 
-            agent {
-                label 'ubuntu'
-            } 
+            
 
             steps {
                 bat 'docker rmi -f nagp-devops-us:local_dev'
