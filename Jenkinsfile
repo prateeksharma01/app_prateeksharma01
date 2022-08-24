@@ -71,7 +71,7 @@ pipeline {
                 }
             steps {
                 withSonarQubeEnv('Test_Sonar') {
-                     bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
+                     bat "C:\\ProgramData\\Jenkins\\.jenkins\\tools\\hudson.plugins.sonar.MsBuildSQRunnerInstallation\\sonar_scanner_dotnet\\SonarScanner.MSBuild.exe end"
                 }
             }
         }
