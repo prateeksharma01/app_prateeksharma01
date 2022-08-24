@@ -76,6 +76,7 @@ pipeline {
         stage('Kubernetes Deployment') {
             steps {
                  sh "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
+                 sh "sed -i \"s/#BRANCH#/\${GIT_BRANCH}/\" ${WORKSPACE}/deploymentandservice.yaml"
                  sh "kubectl apply -f deploymentandservice.yaml"
             }
         }
