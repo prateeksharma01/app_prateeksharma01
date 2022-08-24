@@ -66,11 +66,11 @@ pipeline {
             
 
             steps {
-                 sh 'docker rmi -f nagp-devops-us:local_dev'
-                 sh "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
-                 sh "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
-                 sh "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
-                 sh "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
+                 sh 'sudo docker rmi -f nagp-devops-us:local_dev'
+                 sh "sudo docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
+                 sh "sudo docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
+                 sh "sudo docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
+                 sh "sudo docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
             }
         }
         stage('Kubernetes Deployment') {
