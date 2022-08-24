@@ -31,7 +31,7 @@ pipeline {
             steps {
                 
                 withSonarQubeEnv('Test_Sonar') {
-                     bat "C:\ProgramData\Jenkins\.jenkins\tools\hudson.plugins.sonar.MsBuildSQRunnerInstallation\sonar_scanner_dotnet\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
+                     bat "C:\\ProgramData\\Jenkins\\.jenkins\\tools\\hudson.plugins.sonar.MsBuildSQRunnerInstallation\\sonar_scanner_dotnet\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
                 }
             }
         }
