@@ -31,7 +31,7 @@ pipeline {
             steps {
                 
                 withSonarQubeEnv('Test_Sonar') {
-                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
+                     bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
                 }
             }
         }
@@ -40,8 +40,8 @@ pipeline {
                 label 'windows'
               }
             steps {
-                 sh "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
-                 sh "dotnet build"
+                 bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
+                 bat "dotnet build"
             }
         }
         stage('Test case execution') {
@@ -52,7 +52,7 @@ pipeline {
                      branch 'master'
                 }
             steps {
-                 sh 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
+                 bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
                 mstest testResultsFile:"**/*.trx", keepLongStdio: true
             }
         }
@@ -71,7 +71,7 @@ pipeline {
                 }
             steps {
                 withSonarQubeEnv('Test_Sonar') {
-                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
+                     bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
                 }
             }
         }
