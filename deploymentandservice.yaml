@@ -38,12 +38,7 @@ spec:
 
         image: prateeksh/i-prateeksharma01-#BRANCH#:latest
         
-        limits:
-
-            memory: "128Mi"
-
-            cpu: "500m"
-
+        
         ports:
 
         - containerPort: 7100
