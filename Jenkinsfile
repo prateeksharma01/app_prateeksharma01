@@ -60,14 +60,21 @@ pipeline {
                 }
             }
         }
-        stage('Kubernetes Deployment') {
+        stage('Docker publish') { 
+            agent {
+                label 'ubuntu'
+            } 
+
             steps {
-                
                 bat 'docker rmi -f nagp-devops-us:local_dev'
                 bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
                 bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
                 bat "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
                 bat "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
+            }
+        }
+        stage('Kubernetes Deployment') {
+            steps {
                 bat "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
                 bat "kubectl apply -f deploymentandservice.yaml"
             }
