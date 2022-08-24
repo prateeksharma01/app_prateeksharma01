@@ -17,7 +17,7 @@ pipeline {
             steps {
                 cleanWs()
                 git branch: "${GIT_BRANCH}", url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
-                bat "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
+                 sh "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
 
             }
         }
@@ -28,13 +28,13 @@ pipeline {
 //            steps {
 //                
 //                withSonarQubeEnv('Test_Sonar') {
-//                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
+//                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
 //                }
 //            }
 //        }
         stage('Code build') {
             steps {
-                bat "dotnet build"
+                 sh "dotnet build"
             }
         }
         stage('Test case execution') {
@@ -42,13 +42,13 @@ pipeline {
                      branch 'master'
                 }
             steps {
-                bat 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
+                 sh 'dotnet test --logger "trx;LogFileName=nagp-devops-us.Tests.Results.trx" --no-build --collect "Code Coverage"'
                 mstest testResultsFile:"**/*.trx", keepLongStdio: true
             }
         }
         stage('Release artifact') {
             steps {
-                bat 'dotnet publish nagp-devops-us -o Publish -c Release'
+                 sh 'dotnet publish nagp-devops-us -o Publish -c Release'
             }
         }
         
@@ -58,7 +58,7 @@ pipeline {
 //                }
 //            steps {
 //                withSonarQubeEnv('Test_Sonar') {
-//                    bat "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
+//                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
 //                }
 //            }
 //        }
@@ -66,17 +66,17 @@ pipeline {
             
 
             steps {
-                bat 'docker rmi -f nagp-devops-us:local_dev'
-                bat "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
-                bat "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
-                bat "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
-                bat "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
+                 sh 'docker rmi -f nagp-devops-us:local_dev'
+                 sh "docker build -f ${WORKSPACE}\\Publish\\Dockerfile -t nagp-devops-us:local_dev ${WORKSPACE}\\Publish"
+                 sh "docker tag nagp-devops-us:local_dev ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
+                 sh "docker login -u ${Docker_Login_User} -p ${Docker_Login_Password}"
+                 sh "docker push ${Docker_Login_User}/i-${UserName}-${env.BRANCH_NAME}:latest"
             }
         }
         stage('Kubernetes Deployment') {
             steps {
-                bat "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
-                bat "kubectl apply -f deploymentandservice.yaml"
+                 sh "gcloud container clusters get-credentials nagp-devops --zone us-central1-c --project liquid-receiver-357413"
+                 sh "kubectl apply -f deploymentandservice.yaml"
             }
         }
     }
