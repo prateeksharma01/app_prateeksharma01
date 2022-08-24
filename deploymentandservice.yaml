@@ -36,7 +36,7 @@ spec:
 
       - name: app-nagpdevops
 
-        image: prateeksh/i-prateeksharma-master:latest
+        image: prateeksh/i-prateeksharma01-master:latest
 
         resources:
 
