@@ -17,27 +17,37 @@ pipeline {
             steps {
                 cleanWs()
                 git branch: "${GIT_BRANCH}", url: 'https://github.com/prateeksharma01/app_prateeksharma01.git'
-                 sh "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
+                sh "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
 
             }
         }
-//        stage('Start sonarqube analysis') {
-//            when {
-//                     branch 'master'
-//                }
-//            steps {
-//                
-//                withSonarQubeEnv('Test_Sonar') {
-//                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
-//                }
-//            }
-//        }
-        stage('Code build') {
+        stage('Start sonarqube analysis') {
+              agent { 
+                label 'windows'
+              }
+            when {
+                     branch 'master'
+                }
             steps {
+                
+                withSonarQubeEnv('Test_Sonar') {
+                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe begin /k:sonar-${UserName} /n:sonar-${UserName} /o:sonar-prateeksharma01 /v:1.0 /d:sonar.cs.vstest.reportsPaths=**/*.trx /d:sonar.cs.vscoveragexml.reportsPaths=**/*.coverage"
+                }
+            }
+        }
+        stage('Code build') {
+            agent { 
+                label 'windows'
+              }
+            steps {
+                 sh "dotnet restore nagp-devops-us/nagp-devops-us.csproj"
                  sh "dotnet build"
             }
         }
         stage('Test case execution') {
+            agent { 
+                label 'windows'
+              }
             when {
                      branch 'master'
                 }
@@ -52,16 +62,19 @@ pipeline {
             }
         }
         
-//        stage('Stop sonarqube analysis') {
-//            when {
-//                     branch 'master'
-//                }
-//            steps {
-//                withSonarQubeEnv('Test_Sonar') {
-//                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
-//                }
-//            }
-//        }
+        stage('Stop sonarqube analysis') {
+              agent { 
+                label 'windows'
+              }
+            when {
+                     branch 'master'
+                }
+            steps {
+                withSonarQubeEnv('Test_Sonar') {
+                     sh "${SonarQubeTool}\\SonarScanner.MSBuild.exe end"
+                }
+            }
+        }
         stage('Docker publish') { 
             
 
