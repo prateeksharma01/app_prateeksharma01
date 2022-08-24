@@ -37,8 +37,8 @@ spec:
       - name: app-nagpdevops
 
         image: prateeksh/i-prateeksharma01-#BRANCH#:latest
-
-          limits:
+        
+        limits:
 
             memory: "128Mi"
 
