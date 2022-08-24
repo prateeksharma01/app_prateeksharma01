@@ -20,7 +20,7 @@ spec:
 
       app: app_nagpdevops
 
-  replicas: 3
+  replicas: 4
 
   template:
 
